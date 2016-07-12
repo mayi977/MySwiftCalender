@@ -41,8 +41,9 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     
     //日期颜色
     let lastColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.5)
-    let currentColor = UIColor.redColor()
+    let currentColor = UIColor.whiteColor()
     let nextColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 1.0)
+    var selectColor:UIColor!
     
     //界面控件
     var dateLabel:UILabel!
@@ -232,7 +233,9 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
                         cell.titleLab.textColor = lastColor
                     }else if time == selectDay {
                         cell.titleLab.textColor = currentColor
+                        selectColor = UIColor.redColor()
                         cell.bgImg.image = UIImage(named: "current selected bg")
+                        selectedCell = cell
                     }else{
                         cell.titleLab.textColor = nextColor
                     }
@@ -248,6 +251,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
                     if time == selectDay {
                         cell.titleLab.textColor = currentColor
                         cell.bgImg.image = UIImage(named: "current selected bg")
+                        selectedCell = cell
                     }
                 }
                 
@@ -266,14 +270,26 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
+        selectedCell?.bgImg.image = UIImage(named: "")
+        selectedCell?.titleLab.textColor = selectColor
+        selectedCell?.selected = false
+        
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! MyCollectionViewCell
         cell.selected = true
+        selectColor = cell.titleLab.textColor
+//        if current && selectDay == day {
+//            selectColor = currentColor
+//        }else{
+//            selectColor = cell.titleLab.textColor
+//        }
+        
+        cell.titleLab.textColor = UIColor.whiteColor()
+        selectDay = Int(cell.titleLab.text!)!
         cell.bgImg.image = UIImage(named: "current selected bg")
         if selectedCell == cell {
             return
         }
-        selectedCell?.selected = false
-        selectedCell?.bgImg.image = UIImage(named: " bg")
+        
         selectedCell = cell
     }
     
